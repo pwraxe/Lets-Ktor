@@ -1,0 +1,4 @@
+- HTTP/2 -> It is BDMP(Binary Duplex Multiplexing Protocol) & Replacement of HTTP/1.x
+- To Create Server there are two approch 1) embeddedServer   2) EngineMain
+- in Routing we can have multiple get, post, put, delete method with different param
+- We can have nested route method in routing
