@@ -96,6 +96,15 @@ fun Application.module() {
             val person = call.receive<Person>()
             call.respond(SuccessResponse(200,"Data Available",true, personList))
         }
+        
+        //_______________________________________________________________________________________________________________________________
+        
+        get("/push") {  
+            call.respondRedirect("/aa/aa/xx",true)
+        }
+        
+        //output --> http://localhost:8080/aa/aa/xx
+        
 
     }
 
