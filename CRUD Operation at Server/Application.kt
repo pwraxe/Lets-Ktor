@@ -73,6 +73,29 @@ fun Application.module() {
             personList.removeIf { it.id == id.toInt() }
             call.respondText("Data Deleted Successfully",status = HttpStatusCode.Accepted)
         }
+        
+        //_________________________________________________________________________________________________________________________________
+        
+        // with success, fail  object
+         get("/person") {
+            if(personList.isNotEmpty()){
+                call.respond(SuccessResponse(200,"Data Found",true, personList))
+            }else{
+                call.respond(FailResponse(404,"Data Not Found",false))
+            }
+        }
+
+        get("/person/{id}"){
+            val id = call.parameters["id"]
+            val person = personList.find { it.id == id?.toInt() } ?: call.respond(FailResponse(400,"No Person Found for ID $id",false))
+            call.respond(person)
+        }
+
+
+        post {
+            val person = call.receive<Person>()
+            call.respond(SuccessResponse(200,"Data Available",true, personList))
+        }
 
     }
 
