@@ -2,9 +2,20 @@ fun Application.module(){
 
       install(StatusPages) {
         
+          exception<AuthenticationException> { cause ->
+               call.respond(HttpStatusCode.Unauthorized)
+          }
+            
+          exception<AuthorizationException> { cause ->
+               call.respond(HttpStatusCode.Forbidden)
+          }
+            
           exception<Exception> { ex ->
               call.respond("ex : ${ex}")
           }
+           ....
+            //can have multiple exeption handle code here
+            
       }
 
       routing {
@@ -16,3 +27,7 @@ fun Application.module(){
          }
       }
 }
+
+______________________________________________________________________________________________________________________
+
+
