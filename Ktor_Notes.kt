@@ -2,3 +2,4 @@
 - To Create Server there are two approch 1) embeddedServer   2) EngineMain
 - in Routing we can have multiple get, post, put, delete method with different param
 - We can have nested route method in routing
+- whatever data we responding to client then content type is important it shows what type of data you sending
