@@ -134,7 +134,7 @@ call.request.local.version :  HTTP/1.1
 call.request.pipeline.attributes.allKeys  :  []
 call.request.pipeline.items  :  [Phase('Before'), Phase('Transform'), Phase('After')]
 call.request.pipeline.developmentMode  :  false
-call.request.queryParameters.entries()  : []
+call.request.queryParameters.entries()  : []  <--------------------------------------------------------------------When client send payload we can grab it here at server side
 call.request.queryParameters.urlEncodingOption.name  : DEFAULT
 call.request.queryParameters.urlEncodingOption.declaringClass.name  : "io.ktor.http.UrlEncodingOption"
 call.request.queryParameters.urlEncodingOption.declaringClass.declaringClass  : null
