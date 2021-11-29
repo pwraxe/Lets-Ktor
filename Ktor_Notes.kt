@@ -3,6 +3,11 @@
 - in Routing we can have multiple get, post, put, delete method with different param
 - We can have nested route method in routing
 - whatever data we responding to client then content type is important it shows what type of data you sending
+- You cannot respond at multiple time in same route
+    Ex. get{ 
+      call.respond("Hello World!")
+      call.respond(HttpStatusCode.BadRequest,"400 Response Code")  // This cause an exception: io.ktor.server.engine.BaseApplicationResponse$ResponseAlreadySentException: Response has already been sent
+    }
 
 Selecting Feature on New Project (!4All)
 Server 
