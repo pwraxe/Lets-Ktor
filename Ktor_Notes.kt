@@ -9,6 +9,15 @@
       call.respond(HttpStatusCode.BadRequest,"400 Response Code")  // This cause an exception: io.ktor.server.engine.BaseApplicationResponse$ResponseAlreadySentException: Response has already been sent
     }
 
+- Attach Header to response 
+    call.response.header("myHeader","my custom header")
+    
+    
+    
+    
+    
+    
+    
 Selecting Feature on New Project (!4All)
 Server 
   - Feature
