@@ -117,12 +117,12 @@ fun Routing.dataRouting(){
     }
 }
 ------------------------------------------------------------ OUTPUT ------------------------------------------------------------------------
-  
-  call.request.cookies.rawCookies : {}
+ 
+call.request.cookies.rawCookies : {}
 call.request.cookies.rawCookies.entries : []
-call.request.headers.names() : [Host, Connection, sec-ch-ua, Cache-Control, sec-ch-ua-mobile, User-Agent, sec-ch-ua-platform, Postman-Token, Accept, Sec-Fetch-Site, Sec-Fetch-Mode, Sec-Fetch-Dest, Accept-Encoding, Accept-Language]
+call.request.headers.names() : ["Host","Connection","sec-ch-ua","Cache-Control","sec-ch-ua-mobile","User-Agent","sec-ch-ua-platform","Postman-Token","Accept","Sec-Fetch-Site","Sec-Fetch-Mode","Sec-Fetch-Dest","Accept-Encoding","Accept-Language"]
 call.request.headers.caseInsensitiveName : true
-call.request.headers.entries() : [io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@67c3a168, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@589d1ac5, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@1f2fffa6, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@18fd5258, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@624f78ce, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@52340d70, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@32861a5f, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@401be1c5, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@598b7800, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@2b26b1cc, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@29700215, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@367adb37, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@34b3ee80, io.ktor.server.netty.NettyApplicationRequestHeaders$entries$1$1@2a05810b]
+call.request.headers.entries() : [null,null,null,null,null,null,null,null,null,null,null,null,null,null]
 call.request.headers.parseVersions()  :  []
 call.request.local.host :  localhost
 call.request.local.method :  HttpMethod(value=GET)
@@ -136,22 +136,22 @@ call.request.pipeline.items  :  [Phase('Before'), Phase('Transform'), Phase('Aft
 call.request.pipeline.developmentMode  :  false
 call.request.queryParameters.entries()  : []
 call.request.queryParameters.urlEncodingOption.name  : DEFAULT
-call.request.queryParameters.urlEncodingOption.declaringClass.name  : io.ktor.http.UrlEncodingOption
+call.request.queryParameters.urlEncodingOption.declaringClass.name  : "io.ktor.http.UrlEncodingOption"
 call.request.queryParameters.urlEncodingOption.declaringClass.declaringClass  : null
-call.request.queryParameters.urlEncodingOption.declaringClass.classes  : [Ljava.lang.Class;@2fb2aacf
-call.request.queryParameters.urlEncodingOption.declaringClass.declaredClasses  : [Ljava.lang.Class;@305480b6
+call.request.queryParameters.urlEncodingOption.declaringClass.classes  : [Ljava.lang.Class;@25d41ec4
+call.request.queryParameters.urlEncodingOption.declaringClass.declaredClasses  : []
 call.request.queryParameters.urlEncodingOption.declaringClass.classLoader  : jdk.internal.loader.ClassLoaders$AppClassLoader@1d44bcfa
-call.request.queryParameters.urlEncodingOption.declaringClass.annotatedInterfaces  : [Ljava.lang.reflect.AnnotatedType;@90020cf
-call.request.queryParameters.urlEncodingOption.declaringClass.canonicalName  : io.ktor.http.UrlEncodingOption
-call.request.queryParameters.urlEncodingOption.declaringClass.constructors  : [Ljava.lang.reflect.Constructor;@5f358015
+call.request.queryParameters.urlEncodingOption.declaringClass.annotatedInterfaces  : []
+call.request.queryParameters.urlEncodingOption.declaringClass.canonicalName  : "io.ktor.http.UrlEncodingOption"
+call.request.queryParameters.urlEncodingOption.declaringClass.constructors  : []
 call.request.queryParameters.urlEncodingOption.declaringClass.enclosingClass  : null
 call.request.queryParameters.urlEncodingOption.declaringClass.enclosingConstructor  : null
 call.request.queryParameters.urlEncodingOption.declaringClass.enclosingMethod  : null
-call.request.queryParameters.urlEncodingOption.declaringClass.enumConstants  : [Lio.ktor.http.UrlEncodingOption;@751beebd
-call.request.queryParameters.urlEncodingOption.declaringClass.fields  : [Ljava.lang.reflect.Field;@3d7ecaa0
-call.request.queryParameters.urlEncodingOption.declaringClass.module  : unnamed module @186f8716
+call.request.queryParameters.urlEncodingOption.declaringClass.enumConstants  : ["DEFAULT","KEY_ONLY","VALUE_ONLY","NO_ENCODING"]
+call.request.queryParameters.urlEncodingOption.declaringClass.fields  : [{},{},{},{}]
+call.request.queryParameters.urlEncodingOption.declaringClass.module  : {}
 call.request.queryParameters.urlEncodingOption.declaringClass.nestHost  : class io.ktor.http.UrlEncodingOption
-call.request.queryParameters.urlEncodingOption.declaringClass.packageName  : io.ktor.http
+call.request.queryParameters.urlEncodingOption.declaringClass.packageName  : "io.ktor.http"
 call.request.queryParameters.urlEncodingOption.name  : DEFAULT
 call.request.queryParameters.urlEncodingOption.ordinal  : 0
 call.request.queryParameters.names()  : []
@@ -198,5 +198,3 @@ call.request.receiveChannel().totalBytesRead :  0
  call.request.userAgent()  : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
  call.request.parseAuthorizationHeader()?.authScheme  : null
  call.request.parseAuthorizationHeader()?.render()  : null
-
-
