@@ -66,5 +66,35 @@ fun Routing.dataRouting(){
         }
         call.respond(CommonResponse(statusCode = 200, message = "${personsList.size} Person(s) Found",personsList))
     }
+      
+    post("/update"){
+        val person = call.receive<Person>()
+        getDatabase()?.update(table = PersonTable){
+            set(it.name,person.name)
+            set(it.email,person.email)
+            set(it.mobile,person.mobile)
+            where {
+                it.id eq person.id
+            }
+        }
+        call.respond(CommonResponse(statusCode = 200, message = "${person.name} Updated",null))
+    }
+    
+    post("/delete"){    //----------------------------------> Take Complete Object and Delete row in MySQL
+        val person = call.receive<Person>()
+        getDatabase()?.delete(table = PersonTable){
+            it.id eq person.id
+        }
+        call.respond(CommonResponse(statusCode = 200, message = "${person.name} Deleted",null))
+    }
+
+    post("/delete/{id}"){ //----------------------------------> Take id only and Delete row in MySQL
+        val id = call.parameters["id"].toString().toInt()
+        getDatabase()?.delete(table = PersonTable){
+            it.id eq id
+        }
+        call.respond(CommonResponse(statusCode = 200, message = "Id $id deleted",null))
+    }
+    
     
 }
