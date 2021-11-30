@@ -56,4 +56,15 @@ fun Routing.dataRouting(){
         }
         call.respond(CommonResponse(statusCode = 200, message = "Person ${person.name} Added in Database",null))
     }
+    
+      get("/view"){
+        //Following code like > SELECT * FROM PersonTable;
+        val personsList = arrayListOf<Person>()
+        val query: Query? = getDatabase()?.from(PersonTable)?.select()
+        for (row in query!!){
+            personsList.add(Person(row[PersonTable.id]!!,row[PersonTable.name]!!,row[PersonTable.email]!!,row[PersonTable.mobile]!!))
+        }
+        call.respond(CommonResponse(statusCode = 200, message = "${personsList.size} Person(s) Found",personsList))
+    }
+    
 }
