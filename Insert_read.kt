@@ -10,7 +10,7 @@ data class CommonResponse(var statusCode: Int, var message:String, var data: Lis
 
 //Create table for inserting data into database
 object PersonTable : Table<Nothing>(tableName = "person"){
-    val id = int("id").primaryKey()
+    val id = int("id").primaryKey() ||  val id = integer("id").primaryKey().autoIncrement()
     val name = varchar("name")
     val email = varchar("email")
     val mobile = long("mobile")
