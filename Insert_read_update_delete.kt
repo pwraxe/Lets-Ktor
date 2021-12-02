@@ -3,13 +3,13 @@
 
 
 @Serializable
-data class Person(var id:Int,var name: String,var email:String,var mobile:Long)
+data class Person(var id:Int,var name: String,var email:String,var mobile:Long)  // This class define to get json data from client side
 
 @Serializable
-data class CommonResponse(var statusCode: Int, var message:String, var data: List<Person>?)
+data class CommonResponse(var statusCode: Int, var message:String, var data: List<Person>?)   //This class define to respond client in json format
 
 //Create table for inserting data into database
-object PersonTable : Table<Nothing>(tableName = "person"){
+object PersonTable : Table<Nothing>(tableName = "person"){          // This class define to send data to database // 'person' is tablename define/created in  phpmyadmin
     val id = int("id").primaryKey() ||  val id = integer("id").primaryKey().autoIncrement()
     val name = varchar("name")
     val email = varchar("email")
