@@ -52,7 +52,7 @@ object RSASecurity{
 
     fun decryptPassword(password: String) : String {
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
-        val decryptedMessage = cipher.doFinal(Base64.getDecoder().decode(password))
+        val decryptedMessage = cipher.doFinal(Base64.getDecoder().decode(password))     //Issue causing here
         return String(decryptedMessage, Charset.forName("UTF8"))
     }
 }
