@@ -47,6 +47,8 @@ fun getDatabase() : Database? {
 }
 fun Routing.dataRouting(){
 
+    val personsList = arrayListOf<Person>()
+    
     post("/add"){
         val person = call.receive<Person>()
         getDatabase()?.insert(PersonTable){
@@ -58,14 +60,35 @@ fun Routing.dataRouting(){
     }
     
       get("/view"){
+        personsList.clear()
         //Following code like > SELECT * FROM PersonTable;
-        val personsList = arrayListOf<Person>()
         val query: Query? = getDatabase()?.from(PersonTable)?.select()
         for (row in query!!){
             personsList.add(Person(row[PersonTable.id]!!,row[PersonTable.name]!!,row[PersonTable.email]!!,row[PersonTable.mobile]!!))
         }
         call.respond(CommonResponse(statusCode = 200, message = "${personsList.size} Person(s) Found",personsList))
     }
+      
+    get("/view/{id}"){
+        personsList.clear()
+        val id : Int = call.parameters["id"]?.toInt() ?: return@get call.respond(CommonResponse(statusCode = HttpStatusCode.BadRequest.value,"Invalid parameter",null))
+        val person: Person? = getDatabase()?.from(PersonTable)?.select()?.where { PersonTable.id eq id }?.map {
+                Person(it[PersonTable.id]!!,
+                    it[PersonTable.name]!!,
+                    it[PersonTable.email]!!,
+                    it[PersonTable.mobile]!!)
+            }?.firstOrNull()
+        person?.let {
+            personsList.add(person)
+        }
+
+        if(person != null){
+            call.respond(CommonResponse(HttpStatusCode.OK.value,"Person Found",personsList))
+        }else{
+            call.respond(CommonResponse(HttpStatusCode.BadRequest.value,"No Person Found of id = $id",null))
+        }
+    }
+
       
     post("/update"){
         val person = call.receive<Person>()
