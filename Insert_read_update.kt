@@ -90,9 +90,9 @@ fun Routing.dataRouting(){
     }
 
       
-    post("/update"){
+   post("/update"){
         val person = call.receive<Person>()
-        getDatabase()?.update(table = PersonTable){
+        val affectedRows = getDatabase()?.update(table = PersonTable){
             set(it.name,person.name)
             set(it.email,person.email)
             set(it.mobile,person.mobile)
@@ -100,7 +100,11 @@ fun Routing.dataRouting(){
                 it.id eq person.id
             }
         }
-        call.respond(CommonResponse(statusCode = 200, message = "${person.name} Updated",null))
+        if(affectedRows == 1){  // 1 Row affected i.e. Data Updated  because we apply where clause to update single row
+            call.respond(CommonResponse(statusCode = 200, message = "${person.name} Updated",null))
+        }else {
+            call.respond(CommonResponse(statusCode = HttpStatusCode.NotFound.value, message = "Data Could not Updated", null))
+        }
     }
     
     post("/delete"){    //----------------------------------> Take Complete Object and Delete row in MySQL
