@@ -1,0 +1,18 @@
+
+"SHA-1 is Single Way Encryption Algorithm hence you can encrypt text but cannot decrypt"
+
+
+
+
+Refer File : Lets-Ktor / Encryption Decryption Algorithm / MD5_Encrypt_Decrypt.txt
+
+You have to replace following line No 35 in MD5_Encrypt_Decrypt.txt
+      
+      if(messageDigest == null) messageDigest = MessageDigest.getInstance("MD5")
+      
+With this following line     
+    
+      if(messageDigest == null) messageDigest = MessageDigest.getInstance("SHA-1")
+ 
+ 
+ Rest is Everything same
