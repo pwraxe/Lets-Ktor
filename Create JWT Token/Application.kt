@@ -38,17 +38,39 @@ import org.ktorm.database.Database
  * Step 4 :
  *      Perform   dataRouting()  function as per your requirement
  *
+ *--------------------------------------------------------- Login With Token ----------------------------------------------------------------
  *
+ * Step 5 :
+ *      Create another function in TokenManager as VerifyToken()
+ *
+ * Step 6 : rearrange in module > 1. install(Authentication) ; install(ContentNegotiation) ; routing  fun's
  *
  * */
 
 @Serializable
 data class UserData(var id:Int, var username: String, var password:String)
 
+val config = HoconApplicationConfig(ConfigFactory.load())
+val tokenManager = TokenManager(config)
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
+
+    install(Authentication){
+        jwt {
+            verifier(tokenManager.verifyToken())
+            realm = config.property("realm").getString()
+            validate { jwtCredential ->
+                if(jwtCredential.payload.getClaim("username").asString().isNotEmpty()){
+                    JWTPrincipal(jwtCredential.payload)
+                }else{
+                    null
+                }
+            }
+        }
+    }
+
 
     install(ContentNegotiation){
         json(Json {
@@ -57,9 +79,7 @@ fun Application.module() {
         })
     }
 
-    install(Authentication){
-        jwt {  }
-    }
+
 
     routing {
         dataRouting()
@@ -69,11 +89,17 @@ fun Application.module() {
 
 fun Routing.dataRouting(){
 
-    val tokenManager = TokenManager(HoconApplicationConfig(ConfigFactory.load()))
+    authenticate {
+        get("/auth"){
+            val principal = call.principal<JWTPrincipal>()
+            val username = principal?.payload?.getClaim("username")?.asString()
+            val password = principal?.payload?.getClaim("password")?.asString()
+            call.respond("Hello $username / $password")
+        }
+    }
 
     post("/token") {
         val userData = call.receive<UserData>()
-
         val token = tokenManager.generateJwt(userData)
         call.respond("Token : $token")
     }
