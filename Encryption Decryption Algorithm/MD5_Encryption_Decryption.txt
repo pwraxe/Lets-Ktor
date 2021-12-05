@@ -14,28 +14,27 @@ import org.ktorm.dsl.*
 import org.ktorm.schema.Table
 import org.ktorm.schema.int
 import org.ktorm.schema.varchar
-import java.lang.Exception
 import java.math.BigInteger
-import java.nio.charset.Charset
-import java.security.*
-import java.util.*
-import javax.crypto.Cipher
-import kotlin.collections.ArrayList
+import java.security.MessageDigest
+import java.sql.SQLIntegrityConstraintViolationException
+
 
 //This is One-Way Encryption Algorithm
 object MD5Security{
-    
+
     @Volatile private var messageDigest : MessageDigest? = null
     @Volatile private var digestBytes : ByteArray? = null
     @Volatile private var bigInteger :BigInteger? = null
     @Volatile private var encryptedText: String? = null
 
-    fun encryptPassword(password: String): String?{
 
-        if(messageDigest == null) messageDigest = MessageDigest.getInstance("MD5")
-        if(digestBytes == null) digestBytes = messageDigest?.digest(password.toByteArray())
-        if(bigInteger == null) bigInteger = BigInteger(1, digestBytes)
-        if(encryptedText == null) encryptedText = bigInteger?.toString(128)
+    //When you call this method make sure each time instance create this will give you different encrypted text on different password
+    // if you return same instance(Or applied singleton) then each time encrypted password will be same for all different password
+    fun encryptPassword(password: String): String?{
+        messageDigest = MessageDigest.getInstance("MD5")
+        digestBytes = messageDigest?.digest(password.toByteArray())
+        bigInteger = BigInteger(1, digestBytes)
+        encryptedText = bigInteger?.toString(128)
         while (encryptedText?.length!! < 256){
             encryptedText += "7$encryptedText"
         }
@@ -90,19 +89,30 @@ fun Routing.dataRouting(){
 
     post("/insert"){
         val login = call.receive<Login>()
+        //TODO("get pass, encrypt, save in DB, read all data show encrypted pass,  validate password")
 
+        try {
+            val affectedRows = getDatabase()?.insert(LoginTable){
+                set(LoginTable.id,login.id)
+                set(LoginTable.username,login.username)
+                set(LoginTable.password,MD5Security.encryptPassword(login.password))
+            }
 
-        val affectedRows = getDatabase()?.insert(LoginTable){
-            set(LoginTable.id,login.id)
-            set(LoginTable.username,login.username)
-            set(LoginTable.password,MD5Security.encryptPassword(login.password))
+            if(affectedRows == 1){
+                call.respond(CommonResponse(statusCode = HttpStatusCode.OK.value, "Data inserted", null))
+            }else{
+                call.respond(CommonResponse(statusCode = HttpStatusCode.BadRequest.value, "Error to insert Data", null))
+            }
+
+        }catch (ex :Exception){
+
+            when (ex){
+                is SQLIntegrityConstraintViolationException -> { call.respond(CommonResponse(statusCode = HttpStatusCode.Conflict.value, "ID ${login.id} already exists, pls try different", null))  }
+            }
         }
 
-        if(affectedRows == 1){
-            call.respond(CommonResponse(statusCode = HttpStatusCode.OK.value, "Data inserted", null))
-        }else{
-            call.respond(CommonResponse(statusCode = HttpStatusCode.BadRequest.value, "Error to insert Data", null))
-        }
+
+
     }
 
     post("/validate"){
