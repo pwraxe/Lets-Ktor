@@ -18,6 +18,7 @@ class TokenManager(val config: HoconApplicationConfig) {
             .withIssuer(issuer)
             .withClaim("username",userData.username)
             .withClaim("password",userData.password)
+            .withExpiresAt(Date(tokenExpiration))
             .sign(Algorithm.HMAC256(secret))
 
         return token
