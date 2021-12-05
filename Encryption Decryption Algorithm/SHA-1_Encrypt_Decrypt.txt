@@ -26,7 +26,7 @@ import java.security.*
 import java.sql.SQLIntegrityConstraintViolationException
 
 //This is One-Way Encryption Algorithm
-object SHA256Security{
+object SHA1Security{
 
     @Volatile private var messageDigest : MessageDigest? = null
     @Volatile private var digestBytes : ByteArray? = null
@@ -99,7 +99,7 @@ fun Routing.dataRouting(){
             val affectedRows = getDatabase()?.insert(LoginTable){
                 set(LoginTable.id,login.id)
                 set(LoginTable.username,login.username)
-                set(LoginTable.password,SHA256Security.encryptPassword(login.password))
+                set(LoginTable.password,SHA1Security.encryptPassword(login.password))
             }
 
             if(affectedRows == 1){
@@ -123,7 +123,7 @@ fun Routing.dataRouting(){
                 id = it[LoginTable.id]!!,
                 username = it[LoginTable.username]!!,
                 //get client password encrypt it == get database password , if true return client plain text password else encrypted pass
-                password = if (SHA256Security.encryptPassword(login.password) == it[LoginTable.password]!!) login.password else it[LoginTable.password]!!
+                password = if (SHA1Security.encryptPassword(login.password) == it[LoginTable.password]!!) login.password else it[LoginTable.password]!!
             )
         }?.firstOrNull()
 
