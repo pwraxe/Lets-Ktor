@@ -1,17 +1,23 @@
 import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.codexdroid.UserData
 import io.ktor.config.*
+import java.util.*
 
 class TokenManager(val config: HoconApplicationConfig) {
 
-    private val ONE_MIN = 60_000
+    private val oneSec = 1_000
+    private val oneMin = 60_000
+    private val oneHr = oneMin * 60
+    private val eightHr = oneHr * 8
+
+    private val audience = config.property("audience").getString()
+    private val secret = config.property("secret").getString()
+    private val issuer = config.property("issuer").getString()
+    private val tokenExpiration = System.currentTimeMillis() + eightHr   //Token expired after every eight Hr
 
     fun generateJwt(userData: UserData) : String{
-        val audience = config.property("audience").getString()
-        val secret = config.property("secret").getString()
-        val issuer = config.property("issuer").getString()
-        val tokenExpiration = System.currentTimeMillis() + ONE_MIN   //Token expired after every one minute
 
         val token = JWT.create()
             .withAudience(audience)
@@ -22,6 +28,13 @@ class TokenManager(val config: HoconApplicationConfig) {
             .sign(Algorithm.HMAC256(secret))
 
         return token
+    }
 
+
+    fun verifyToken() : JWTVerifier{
+        return JWT.require(Algorithm.HMAC256(secret))
+            .withAudience(audience)
+            .withIssuer(issuer)
+            .build()
     }
 }
