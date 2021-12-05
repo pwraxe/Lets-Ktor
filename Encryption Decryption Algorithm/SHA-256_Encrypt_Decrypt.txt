@@ -17,6 +17,7 @@ import org.ktorm.schema.varchar
 import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.*
+import java.sql.SQLIntegrityConstraintViolationException
 
 //This is One-Way Encryption Algorithm
 object SHA256Security{
@@ -26,11 +27,13 @@ object SHA256Security{
     @Volatile private var bigInteger :BigInteger? = null
     @Volatile private var encryptedText: StringBuilder? = null
 
+    //When you call this method make sure each time instance create this will give you different encrypted text on different password
+    // if you return same instance(Or applied singleton) then each time encrypted password will be same for all different password
     fun encryptPassword(password: String): String{
 
-        if(messageDigest == null) messageDigest = MessageDigest.getInstance("SHA-256")
-        if(digestBytes == null) digestBytes = messageDigest?.digest(password.toByteArray(StandardCharsets.UTF_8))
-        if(bigInteger == null) bigInteger = BigInteger(1, digestBytes)
+        messageDigest = MessageDigest.getInstance("SHA-256")
+        digestBytes = messageDigest?.digest(password.toByteArray(StandardCharsets.UTF_8))
+        bigInteger = BigInteger(1, digestBytes)
         encryptedText = StringBuilder(bigInteger?.toString(16))
 
         while (encryptedText?.length!! < 32){ encryptedText?.insert(0,'0') }
@@ -86,17 +89,22 @@ fun Routing.dataRouting(){
     post("/insert"){
         val login = call.receive<Login>()
 
+        try {
+            val affectedRows = getDatabase()?.insert(LoginTable){
+                set(LoginTable.id,login.id)
+                set(LoginTable.username,login.username)
+                set(LoginTable.password,SHA256Security.encryptPassword(login.password))
+            }
 
-        val affectedRows = getDatabase()?.insert(LoginTable){
-            set(LoginTable.id,login.id)
-            set(LoginTable.username,login.username)
-            set(LoginTable.password,SHA256Security.encryptPassword(login.password))
-        }
-
-        if(affectedRows == 1){
-            call.respond(CommonResponse(statusCode = HttpStatusCode.OK.value, "Data inserted", null))
-        }else{
-            call.respond(CommonResponse(statusCode = HttpStatusCode.BadRequest.value, "Error to insert Data", null))
+            if(affectedRows == 1){
+                call.respond(CommonResponse(statusCode = HttpStatusCode.OK.value, "Data inserted", null))
+            }else{
+                call.respond(CommonResponse(statusCode = HttpStatusCode.BadRequest.value, "Error to insert Data", null))
+            }
+        }catch (ex : Exception){
+            when (ex){
+                is SQLIntegrityConstraintViolationException -> { call.respond(CommonResponse(statusCode = HttpStatusCode.Conflict.value, "ID ${login.id} already exists, pls try different", null))  }
+            }
         }
     }
 
