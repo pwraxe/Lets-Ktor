@@ -35,6 +35,21 @@ Step 6: add remote repository
 Step 7: Push changes to heroku
 	- git push heroku master
 
+
+if you run "prefix_name.heroku.com"  and you see "This prefix_name.herokuapp.com page can’t be found"
+
+Then buddy its time to call your api with endpoint if you specified routes with endpoint
+
+
+
+Next Step :
+
+	- If you add code in IDE , and get reponse in localhost if successfull response then add, commit, push code on heroku git
+	
+
+***************************************************** Following Steps is Optional ************************************************************
+
+
 -------------------------------------------------------------------------------------
 Step 8: Add App to Pipeline in stage in heroku website
 
