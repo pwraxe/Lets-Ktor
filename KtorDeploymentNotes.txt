@@ -1,3 +1,7 @@
+Some Initials > Create Ktor Project, do any code > compile and run on localhost:8080/endpoint || 0.0.0.0:8080/endpoint
+if code successfully runs on local server then go for following step to run on live server
+
+
 Step 1: Add Stage in build.gradle file
 	
 	tasks.create("stage") {
