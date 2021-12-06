@@ -11,7 +11,7 @@ Step 1: Add Stage in build.gradle file
 -------------------------------------------------------------------------------------
 Step 2: Crate procfile in project root and add following line and File name "Procfile"
 	
-	"web: build/install/codexdroid_id/bin/codexdroid_id"
+	"web: build/install/codexdroid_id/bin/codexdroid_id"	------------------------------>  Add  this line in Procfile without quotes
 	Where you find codexdroid_id like name > 
 			1. Gradle > at Top
 			2. Center of menu item bar 
