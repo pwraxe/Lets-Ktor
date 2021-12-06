@@ -25,7 +25,7 @@ Step 3: add and commit changes locally in terminal
 Step 4: type "heroku login" in CLI  > wait few sec > you will see > Logged in as [email]
 
 -------------------------------------------------------------------------------------
-Step 5: to create app > type > heroku create 'prefix_name/app_name'
+Step 5: to create app > type > heroku create 'prefix_name/app_name'      -----------------------> pls make sure prefix_name/app_name should be unique and its not taken by others
 	- this cmd give you link to run Ex. prefix_name.herokuapp.com  and gitLink.git
 
 -------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ Step 7: Push changes to heroku
 	- git push heroku master
 
 -------------------------------------------------------------------------------------
-Step 8: Add App to Pipeline in stage
+Step 8: Add App to Pipeline in stage in heroku website
 
 -------------------------------------------------------------------------------------
 Step 9 : "heroku local web"
