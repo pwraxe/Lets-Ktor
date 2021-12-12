@@ -18,7 +18,8 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Serializable
 data class Person(var id: Int, var name: String, var email: String)
 
-private var FILE_PATH = "C:\\Users\\username\\OneDrive\\Desktop\\ktor git project\\ktor git\\img"
+//This is Path where you want to save image
+private var FILE_PATH = "C:\\Users\\[username]\\OneDrive\\Desktop\\img"
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
@@ -55,7 +56,6 @@ fun Routing.dataRoutes(){
             else -> { call.respond("Invalid id ,refer id 1 or 2") }
         }
     }
-
     /**
      *  -----------------------------------------------------------------------------------------------------------------
      *  Method : POST
@@ -111,7 +111,6 @@ fun Routing.dataRoutes(){
         call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
     }
 
-
     // UPLOAD IMAGE METHOD 2
     post("/img_upload"){
         try {
@@ -149,6 +148,39 @@ fun Routing.dataRoutes(){
 
         }catch (ex : Exception){
             call.respond(ex)
+        }
+    }
+
+    //View Image on Web-Browser   (Check path for this)
+    get("/img/{name}"){
+        val name: String = call.parameters["name"]!!
+        println("Image Name : $name")
+
+        if(name.endsWith(".jpg") ||
+            name.endsWith("jpeg") ||
+            name.endsWith("png") ||
+            name.endsWith("gif")){
+
+            val file = File("$FILE_PATH\\$name")
+            println("FilePath : $file")
+            if(file.exists()){
+                call.respondFile(file)
+            }else{
+                call.respond("No such image")
+            }
+        }else{
+            val file = File(FILE_PATH)
+            val fileLists = file.list()
+
+            println(Gson().toJson(fileLists))
+
+            loop@for(imgFile in fileLists){
+                if(name == imgFile){
+                    call.respondFile(file)
+                    break@loop
+                }
+            }
+            call.respond("Image $name Not Found")
         }
     }
 }
