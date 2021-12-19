@@ -1,0 +1,18 @@
+Goto Root 
+  - $sudo -i
+  
+goto root folder/location 
+   - $cd /
+   
+remove any file at current location 
+  - $rm filename
+  
+remove folder 
+  - $rmdir folderName
+  
+remove folder forcefully
+  - $rm -rf folderName
+  
+list of files and folders 
+  - $ls
+  
