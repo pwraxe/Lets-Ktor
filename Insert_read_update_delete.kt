@@ -1,4 +1,18 @@
 
+Few Dependency while run mysql or ktorm
+
+    implementation "io.ktor:ktor-serialization:$ktor_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.1'
+
+    //MySQL
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
+
+    //Ktorm
+    implementation group: 'org.ktorm', name: 'ktorm-core', version: '3.4.1'
+
+
+
 // ============================================ Insert Single Object in Database coming from client ========================================
 
 
