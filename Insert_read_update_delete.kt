@@ -1,3 +1,10 @@
+if you working with serialisable then add dependecy and add plugin below buildScript
+
+buildscript{}
+plugins {
+    id "org.jetbrains.kotlin.plugin.serialization" version "1.6.0"
+}
+apply plugin '....'
 
 Few Dependency while run mysql or ktorm
 
