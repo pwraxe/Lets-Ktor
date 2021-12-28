@@ -180,3 +180,27 @@ From now we upload on digital Ocean
 
 	For getting Link >>> 
 		Left Panel >>> Click on Apps >>> Yuo can see your created app >>> also same at end you can see your app url with Column name
+		
+				
+==================================================== To Add Custom Domain Name =====================================================================
+		
+	Fot Add Custom Domain insted of default link from digital Ocean
+		Step 1 : Make sure you added domain in "Networking" >>> "Domain" TAB  >>> with list as 
+				Domain Name			Directs To
+				NameOfDomain
+				1 CNAME / 3 NS			
+			
+		Step 2 : Click on "Apps" >>> Click on App Name  >>> Setting >>> Domains >>> Add Domain  >>> Come back again in Setting >>> Domain >>> it may show "Configuring"
+
+		Step 3 : Goto Site where you have Server (In my case I have VPS at Hostinger) 
+				>>> Server >>> Server Management >>> Other Settings >>> sethostname same as added in digitalOcean
+				
+				**************************************************************************************************
+				NOTE : Domain Name at Digital Ocean ==  Domain Name at VPS at Hostinger   (Should be same)
+				**************************************************************************************************
+				
+				Now run custom domain at web-browser
+	
+			
+
+
