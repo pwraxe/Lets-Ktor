@@ -1,3 +1,15 @@
+/****
+
+To View Database , Tables, DataIn Table 
+We need to connect remote database using digital ocean credentials in either command promp, Terminal 
+
+Then fire queries of mysql in terminal 
+
+**/
+
+
+
+
 package com.codexdroid
 
 import io.ktor.application.*
@@ -18,6 +30,8 @@ import kotlin.random.Random
 private var database: Database? = null
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
+
 
 
 //Create table for inserting data into database
