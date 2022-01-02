@@ -99,7 +99,7 @@ From now we upload on digital Ocean
 
  - It will ask existing droplets >>> skip this steps 
 
- - Below Click on "Go containerized with Docker"
+ - Below Click on "Go containerized with Docker" || find out how to add container
 
  - Select Ubuntu_20.04  >>> Plan : Basic >>> CPU Option : Regular Intel >>> Region : AnyYouWant >>> Authentication : SSH Keys 
 
