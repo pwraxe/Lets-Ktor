@@ -61,7 +61,8 @@ Step 6 :   - Create new file named as "Dockerfile" in root directory
 
 			---------------------------------------------------------------------------
 
-Step 7 : Build docker file by typing in terminal >>>  "docker build -t anyLowerCaseTagForDockerImage ."
+Step 7 : back to original path (Root Path i.e where Docker file created)
+                Build docker file by typing in terminal >>>  "docker build -t anyLowerCaseTagForDockerImage ."
 
 		Note : if you face Error like
 				error during connect: This error may indicate that the docker daemon is not running. POST ....
