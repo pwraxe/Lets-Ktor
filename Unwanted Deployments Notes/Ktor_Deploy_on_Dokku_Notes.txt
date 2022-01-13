@@ -1,0 +1,90 @@
+
+
+/*
+
+Pre-Requirements 
+    - You must install Ubuntu from windows Store for free
+    - Setup ubuntu , add dokku in ubuntu  > Ref. https://dokku.com/docs/getting-started/installation/#installing-the-latest-stable-version
+    - finally type "dokku" and hit enter to check dokku intalled or not
+    - then goto following steps
+*/
+
+
+Install Dokku in Ubuntu  
+    
+    //Run All Commands in root (by enter $sudo -i in teminal)
+
+    CMD-1 : # wget https://raw.githubusercontent.com/dokku/dokku/v0.26.6/bootstrap.sh;
+    CMD-2 : # sudo DOKKU_TAG=v0.26.6 bash bootstrap.sh
+
+    //Set Global domain for our server
+    CMD-3 : # dokku domains:set-global domainName.com/.in
+    CMD-4 : # 
+    CMD-5 : # 
+    CMD-6 : # 
+    CMD-7 : # 
+
+
+
+
+
+
+
+
+
+
+Step 1 : Before integrating dokku in project make sure you can run your project on either postman or web browser
+
+Step 2 : Add following code to build.gradle file
+
+            tasks.create("stage") {
+                dependsOn("installDist")
+            }
+
+ 
+Step 3 : Create "Procfile" in root folder 
+
+Step 4 : "Enable VCS" --> "git add ."  --->  git commit -m "commit msg"
+
+Step 5 : Generate SSH Keys by following command
+
+        ssh-keygen -t rsa -m PEM -P "" -C "dokku access" -f ~/id_rsa_dokku
+
+        note down private key and public key path and SSH key
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                            Generating public/private rsa key pair.
+                            Your identification has been saved in /home/akshay/id_rsa_dokku
+                            Your public key has been saved in /home/akshay/id_rsa_dokku.pub
+                            The key fingerprint is:
+                            SHA256:oq6nzoqIiEm/mCQb174JhaWLZ8KPzb6+bZ7oqPSE3I8 dokku access
+                            The key's randomart image is:
+                            +---[RSA 3072]----+
+                            |                 |
+                            |                 |
+                            |    .            |
+                            |   +             |
+                            |  o . . S        |
+                            |o.o+ . .         |
+                            |=B*oo            |
+                            |@X%+*o.          |
+                            |%BOE@*           |
+                            +----[SHA256]-----+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        Follow these steps 
+            https://dokku.com/docs/deployment/user-management/#adding-ssh-keys
+
+
+
+
+Step 5 : Set Domain to Global   (make sure you run following command in root directory by enter "sudo -i")
+
+         dokku domains:set-global "codexdroid.com"
+
+
+Step 6 :  connect server ssh to local
+    Syntax : ssh root@IP_Address_Of_Server_SSH
+    -> ssh root@156.67.219.53

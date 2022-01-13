@@ -1,0 +1,59 @@
+DevOps
+	https://www.youtube.com/watch?v=eX3ZimWWHh4&list=PLBGx66SQNZ8aPsFDwb79JrS2KQBTIZo10&ab_channel=TechnicalGuftgu
+	https://www.youtube.com/c/edurekaIN/playlists?view=50&sort=dd&shelf_id=6
+
+DockerTutorials 
+	- https://www.youtube.com/playlist?list=PLhW3qG5bs-L99pQsZ74f-LC-tOEsBp2rK  (17)
+	- https://www.youtube.com/watch?v=ETBj0oxe81o&list=PL6XT0grm_Tfje2ySztzdhp0HmCjVj5P4z&ab_channel=GauravSharma  (70)
+	- https://github.com/wsargent/docker-cheat-sheet#dockerfile
+
+
+Create Docker file : https://www.youtube.com/watch?v=Q1AFRrmEWtU&ab_channel=Caelis
+
+
+- Open Terminal
+
+- goto path where you want to create Dockerfile
+
+- if you want to make directory $mkdir dirName
+
+- navigate to "dirName"
+
+- create dockerfile by command >>> $touch Dockerfile   ("Make sure name should be same")
+
+- Open Dockerfile by command >>> $vim Dockerfile
+
+	{
+		- Commands in Vim is Starts from "#commentsYouWant"
+
+		- Dockerfile starts with "FROM"  Command
+
+		- $FROM externalImageName
+		//You can see external ready images this URL : https://hub.docker.com/search?type=image
+		
+		- Add Next Command : $FROM ubuntu
+
+		- Add Next Command : $MAINTAINER FirstName LastName <EmailID>   //MAINTAINER (DEPRECATED) >>> (USE) LABEL 
+
+		- Add Next Command : $RUN apt-get update  <------------------------ (Optional) this is same command we enter in linux terminal 
+
+		- Add Next Command : $CMD ["echo","display message"]
+
+		//To Quit from Vim >>> Hit "Esc" >>> type colon ":" >>> type "wq" >>> hit enter
+
+	}
+
+- To View file content type $cat filename
+
+- Now Build Docker File >> goto path where docker file created >>> Type Commad >>> $docker build .
+OR
+- if you dont want to navigate then >>> Type Command >>> docker build path_to_docker_file .
+
+- if you want to add TAG to your image then add -t commnd in above command >>> $docker build -t nameOfYourImage:TAG_FLOAT_NO .  >>> hit enter
+
+- Enter Command "$docker images"  to see your images and you may see your image id
+
+- Run File >>> Type >>> "$docker run yourImageName_ORImage_ID" >>> hit enter to see "display message"
+
+
+

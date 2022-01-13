@@ -1,0 +1,42 @@
+Create Project and Run it and test on localhost 
+if successfully runs then perform follwing operation to deploy ktor project on docker
+
+
+Step 1 : Create docker file name as "Dockerfile"
+		Add following code init
+
+		***************************************************************************************************
+		FROM ubuntu:18.04
+
+		# Install dependencies
+		RUN apt-get update && \
+		 apt-get -y install apache2
+
+		# Install apache and write hello world message
+		RUN echo 'Hello World!' > /var/www/html/index.html
+
+		# Configure apache
+		RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
+		 echo 'mkdir -p /var/run/apache2' >> /root/run_apache.sh && \
+		 echo 'mkdir -p /var/lock/apache2' >> /root/run_apache.sh && \ 
+		 echo '/usr/sbin/apache2 -D FOREGROUND' >> /root/run_apache.sh && \ 
+		 chmod 755 /root/run_apache.sh
+
+		EXPOSE 80
+
+		CMD /root/run_apache.sh
+		***************************************************************************************************
+
+		After waiting sometime you may see following text
+			Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+
+Step 2 : docker scan (optional)
+
+Step 3 : docker build -t hello-world .
+
+Step 4 : docker images --filter reference=hello-world    (Now you can see your apps in docker desktop applicatioin > hello-world)
+
+Step 6 : docker run -t -i -p 80:80 hello-world
+		You may see this message >  
+			Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this messag
+		

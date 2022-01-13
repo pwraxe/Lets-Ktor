@@ -1,0 +1,193 @@
+Create Project and Run it and test on localhost 
+if successfully runs then perform follwing operation to deploy ktor project on docker
+
+
+Ref : https://medium.com/swlh/how-to-deploy-a-ktor-server-using-docker-dd01f4883c30
+
+
+
+
+
+Step 1 : Add : com.github.jengelman library in project , in build.gradle file
+
+Ref : https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
+*************************************************Make Sure Sequence should be same ***********************************************
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
+    }
+}
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+apply plugin: 'kotlin'
+apply plugin: 'application'
+apply plugin: "com.github.johnrengelman.shadow"
+
+
+application {
+    mainClassName = "io.ktor.server.netty.EngineMain"
+}
+
+group 'com.codexdroid'
+version '0.0.1'
+mainClassName = "io.ktor.server.netty.EngineMain"
+
+sourceSets {}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url 'https://kotlin.bintray.com/ktor' }
+    maven { url 'https://kotlin.bintray.com/kotlinx' }
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+dependencies {}
+**************************************************************************************************************************
+
+In Terminal 
+	Step 2 :  $docker build -f Dockerfile --no-cache -t ktoreasy .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ref : https://www.youtube.com/watch?v=lyLED_AodCs
+
+
+Step 1 : 
+	
+	Create new File at root as "Dockerfile"
+	Add follwing code in that file 
+
+***********************************************************
+*		FROM openjdk:12-jdk-alpine
+*
+*		RUN apk add --no-cache bash
+*
+*		WORKDIR /project_name 			//Where u can finf  -> at project structure || -> at gradle tab
+*
+*		CMD ./gradlew run
+***********************************************************
+
+
+Step 2 : Create file at root name as "docker-compose.yml"
+		 In this file add following code
+ 
+***********************************************************
+*		version: "3.6"
+*
+*		services:
+*			app:
+*		    	build: ./
+*		    	container_name: any_name_for_container
+*		    	volumes:
+*		    	  	- ./:/ktor_docker
+*		    	ports:
+*		      		- "8086:8086"	<---------- make sure this ports are different
+*		    	expose:
+*		      		- 8086
+*
+***********************************************************
+Step 3 : $docker-compose up --build
+
+
+
+
+
+**************----------------------------***********************************--------------------------------
+Ref Link  : https://www.youtube.com/watch?v=iqqDU2crIEQ&t=1002s
+
+Push Docker
+	
+	Step 1 : In Terminal type  " $docker images "  hit enter  you will see 
+
+	Repository			TAG			IMAGE ID 		CREATED 		SIZE
+	ktor_docker_app   	latest    	854c9d40ff5f   	10 hours ago   	343MB
+	then -----------------remaining------------------------------------
+
+
+	Step 2 : (optional) Create TAG    (assign TAG to REpository)
+
+		Syntax : $docker tag [repository_name] [dockerWebAccUserName]/[Repository]
+		
+		$docker tag ktor_docker_app akshay1857/ktor_docker_app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Add following code in build.gradle file
+
+
+	task fatJar(type: Jar) {
+	    manifest {
+	        attributes 'Main-Class': mainClassName
+	    }
+	    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+	    with jar
+	}
+
+
+Step 2 : 
+	Open Terminal and Type  " cd build/libs/ "  <-- w/o quote
+
+
+	

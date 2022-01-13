@@ -1,0 +1,379 @@
+
+Follow these 2 videos to host app on digital ocean
+	- https://www.youtube.com/watch?v=Q1AFRrmEWtU&list=PLM83KEL95hb3oBc0fJdmhG9w3kF23snqx&index=4&ab_channel=Caelis
+
+Docker File link of above video
+	- https://github.com/caelis-io/ktor-tutorial/blob/episode-06/Dockerfile
+
+
+
+
+
+Perform Localhost base code on ktor 
+Run code on localhost:8080/...
+if sucessfully runs then do following steps 
+
+
+Step 1 : add Fat Jar module in build.gradle
+			
+			task fatJar(type: Jar) {
+			    manifest {
+			        attributes 'Main-Class': mainClassName
+			    }
+			    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+			    with jar
+			}
+
+			>>> Sync 
+
+
+Step 2 :  In Right Panel > Open "Gradle" TAB  -> Goto 
+				>>> "Task" >>> "other" >>> double Click on "fatJar" >>> Wait for Successfull Build
+
+Step 3 : 	- Open Terminal >>> Goto Path >>> cd build/libs  
+		 		(you can also see left project panel , red color "build" folder and open it you will see "libs")
+		 	
+		 	- type "dir" in terminal to check any directory available or not  [Upto this step directory should be there]
+
+Step 4 :    - Run this directory by type in terminal "java -jar jarFileName" 
+
+		 	- in terminal you will see responding at 0.0.0.0:8080 
+
+		 	- if You face Exception : Exception in thread "main" java.net.BindException: Address already in use: bind
+				---> then stop local server all features in xampp if use
+
+		 	- then again run goto Step 4  
+
+Step 5 :    If No Bind Error then >>> open browser and perform code check it runs or not without local server
+			Note : If in case you change port number then after step 4 you get thet port in result Ex. 0.0.0.0:PORT
+			Make sure you running on that port locally 
+				
+Step 6 :   - Create new file named as "Dockerfile" in root directory
+
+			Copy and paste following code in Dockerfile 
+			---------------------------------------------------------------------------
+				FROM openjdk:11-jdk-slim
+
+				WORKDIR /src
+				COPY . /src
+
+				RUN apt-get update
+				RUN apt-get install -y dos2unix
+				RUN dos2unix gradlew
+
+				RUN bash gradlew fatJar
+
+				WORKDIR /run
+				RUN cp /src/build/libs/*.jar /run/server.jar
+
+				EXPOSE 8086
+
+				CMD java -jar /run/server.jar
+
+			---------------------------------------------------------------------------
+
+Step 7 : Build docker file by typing in terminal >>>  "docker build -t anyLowerCaseTagForDockerImage ."
+
+		Note : if you face Error like
+				error during connect: This error may indicate that the docker daemon is not running. POST ....
+
+				- then make sure your docker desktop software running it auto starts your docker
+
+				- and then again goto Step 7
+
+				- wait for complete context transfer
+
+Step 8 : Type following command in terminal 
+			
+			PORT : your current given port OR port which you get at step 4
+
+			$ docker run --name yourGivenTagNameAsItIs -p PORT:PORT yourGivenTagNameAsItIs
+
+			after applying above command >>> in response you will get Responding at 0.0.0.0:8086
+
+			run code on webbrowser check working or not
+
+
+Step 9 : Enter Command "$docker ps"  to check your docker image in container
+
+
+****************************** Up To this you just setup docker image locally *************************************
+
+From now we upload on digital Ocean
+
+
+
+ - login with digital ocen account >>> https://cloud.digitalocean.com/
+
+ - Left Panel >>> Click on New Project  >>>  Fill form and Click on  "Create project"
+
+ - It will ask existing droplets >>> skip this steps 
+
+ - Below Click on "Go containerized with Docker"
+
+ - Select Ubuntu_20.04  >>> Plan : Basic >>> CPU Option : Regular Intel >>> Region : AnyYouWant >>> Authentication : SSH Keys 
+
+ 		Q. How To Setup SSH Key?
+ 		->  - open terminal/gitbash/powershell any which can run commands
+ 			- type "$ssh-keygen"
+ 			- Enter fileName
+ 			- Enter Password , and again  (make sure you remember or note it somewhere)
+
+ 		Q. How to add public key?
+ 		-> just type commad "$cat ~/.ssh/id_rsa.pub"
+ 			- Just copy key starts with "ssh-rsa....."   and paste it in "SSH Key Content" in digital Ocean
+ 			- Enter any name to ssh Key and Click on Add SSH Key
+
+  - Choose hostname you want
+  
+  - Add tags (optional)
+
+  - Click on Create Droplet
+
+  - You may saw droplet with your custom name building 
+
+
+  =====================================================================================================================================
+
+- Setup code in localhost if everything is perfectly runs then do following
+	
+	- Login Git Account >>> create Repository >>> perform following commands
+
+		git init
+		git add README.md
+		git commit -m "first commit"
+		git branch -M main
+		git remote add origin https://github.com/gitusername/projectname.git
+		
+		git push -u origin main
+
+
+		For first time you may see following error
+		{
+			remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.
+			remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information.
+			fatal: Authentication failed for 'https://github.com/gitusername/projectRepoAtGit.git/'
+		}Solution{
+			Step 1 : Create Personal Access Token on Github
+
+			on your Github Account >>> Setting >>> Developer Setting >>> Personal Access Token >>> Generate New Token >>> Enter Few notes >>> Fill Up Form as Required
+				>>> Click on "Generate Token" >>> COPY And Paste Somewhere >>>
+			Git Token : "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"
+
+			Step 2 : - click on Wondows Button on Keyboard type "Manage Windows Credentials"
+					 - Find "git:https://github.com" > Open it >>> Click on Edit >>> Replace your git password with git token which you just copied >>> Saved
+
+
+		}
+
+		again in terminal >> type "git push -u origin main" >>> it may ask 
+			Username for 'https://github.com': gitUsername
+			Password for 'https://gitUsername@github.com': //paste token here insted typing password
+
+		and here done You successflly push code on your live git repository
+
+
+
+
+	- Enable VCS >>> Git >>>  "$git add ."  >>>  "$git commit -m 'commitMsg'"  >>> git push origin main/master
+
+	- On Digital Ocean >>> In Left Panel Click on "Apps"
+
+	- Click on Github > Authorised if not and select repository 
+
+	- If It ask for Choose repository  and You cant see then edit permission and select repository to share in github and save >>>
+
+	- after reloading again select git >>> Choose Reository >>> Next >>> Here you will see "Docker file Detected" >>> i.e everything is good
+
+	- You can add database >>> type name of database >>> but it is PostgreSQL
+ 
+	- Click on Next >>> Select Plan $5/month >>> Launch Basic App >>> You now see "Building" 
+	- Note >> DO NOT Close Window OR refresh else you may face failuar in deployment
+
+
+	For getting Link >>> 
+		Left Panel >>> Click on Apps >>> Yuo can see your created app >>> also same at end you can see your app url with Column name
+
+======================================================================================================================
+Add Database in Digital Ocean
+
+	- Login to  digitalOcean Website 
+
+	- In Left Panel >>> Under "Manage" >>> Click on "Database"
+
+	- Click on "Create a Database Cluster"
+
+	- Choose Database Engine >>> MySQL 8
+
+	- Choose Datacenter >>> Any which you want
+
+	- Under "Finalized and Create" >>> Enter Custom Database Name 
+
+	- Select PRoject 
+
+	- Add Tag (optional)
+
+	- Note Down "Important: We will automatically create a default database (defaultdb) and default admin user (doadmin)"
+
+	- Click on "Create a Database Cluster" (it'll redirect, wait for few sec/min's)
+
+	- If you scroll page then You will see connection details
+
+	- Above "Overview" TAB >>> Click on "Get Started"
+
+	========================================= Add Following lines for database =============================
+
+	if you working with serialisable then add dependecy and add plugin below buildScript
+
+	buildscript{}
+	plugins {
+	    id "org.jetbrains.kotlin.plugin.serialization" version "1.6.0"
+	}
+	apply plugin '....'
+
+	Few Dependency while run mysql or ktorm
+
+	    implementation "io.ktor:ktor-serialization:$ktor_version"
+	    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1'
+	    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.1'
+
+	    //MySQL
+	    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
+
+	    //Ktorm
+	    implementation group: 'org.ktorm', name: 'ktorm-core', version: '3.4.1'
+======================================================================================================================
+
+	Connect with MySQL Database using Command Prompt
+
+		- Left Panel >>> Select Database >>> Click on Your Database 
+		- In "Connection Details" Box >>> Copy All Data and save locally somewhere
+		- Download CA Certificate >>> save somewhere in your drive (Remember its Path)	
+		- Install Ubuntu from windows Store  >>> Open it
+		- change usertype to "root" by "sudo -i"
+		- To install MySQL >>> type "#apt install mysql-server"
+		- once done 
+		- check mysql install or not 
+			- if you are root user then type "#mysql"
+			- if you are public user then type "$sudo mysql"
+
+		- Connect to existing remote database
+			-> Open Digital Ocean Account
+			-> Left Panel >>> Select "Databases" >>> Click on Your Database >>>
+				Right Side >>> Connection Detail >>> Select "Flag" insted "Connection Parameter"
+			-> Copy mysql -u [username] -p [passwd] -h [hostName] -P [PORT] -D [DB_Name]
+			-> Paste it in Ubuntu Terminal >>> You now see "mysql>"
+
+			-> start your mysql commands/query
+			-> to check remote database fire command >>> mysql>show databases;
+			-> If you see remote database then you can create table and start inserting data into data base
+======================================================================================================================
+
+
+
+	/************************************************* NOT SURE ****************************************************/
+	// Unistall PHP MyAdmin
+
+		$sudo dpkg -P phpmyadmin  
+		$sudo rm -vf /etc/apache2/conf.d/phpmyadmin.conf
+		$sudo rm -vfR /usr/share/phpmyadmin
+		$sudo service apache2 restart
+		$sudo apt-get autoremove phpmyadmin
+
+	
+	Install PHP MyAdmin in Ubuntu
+
+		-> Goto Root in terminal by "$sudo -i"
+		-> type "mysql"
+			Error May Raise >>> 
+			{
+				Error : If you face error like > 
+						an error occurred while installing the database
+				 		Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+				Solution : 
+				goto >>> sudo -i
+						#service mysql stop
+						#sudo usermod -d /var/lib/mysql/ mysql
+						#service mysql start
+						#mysql
+						
+						---> make sure you are in right directory where mysql installed
+
+						root@DESKTOP-7RA8R09:/etc/mysql# mysql (in root directory >>> in etc/mysql folder)
+			}
+
+
+		-> $sudo apt update
+
+		-> $sudo apt install phpmyadmin >>> Select Apache2 (Selected text will appear with '*') >>> OK
+
+		-> MySQL Application password for phpmyadmin >>> type passwd and remember it
+
+		-> Type CMD >>> #sudo phpenmod mbstring
+
+		-> Type "#mysql"
+
+		-> to check phpmyadmin in table >> type "mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;" 
+				//Here You will see >>> table with user containing 'phpmyadmin'
+
+		-> goto mysql >
+		-> Run Query >>> SELECT user,authentication_string,plugin,host FROM mysql.user;
+			// You can see table column "user" root with Column "authentication_string" empty
+
+		-> Type Command >>> "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourPassword';"
+		-> Run Query >>> SELECT user,authentication_string,plugin,host FROM mysql.user;
+			// Now you can see table with user root with "authentication_string" some value
+			// Note : Up-to-this >>> you can also see phpmyadmin as root in table 
+
+
+
+		/*************************************************
+			Note: - If you close terminal >>> Reopen it 
+			 	  
+			 	  - Type :: $mysql -u root -p  (Hit Enter) >>> type password >>> you are good to go
+
+		*************************************************/
+		> CREATE USER 'doadmin'@'test-db-do-user-10480409-0.b.db.ondigitalocean.com' IDENTIFIED BY '9AvhLIGrecrpdHfl';
+			Error :  ERROR 1227 (42000): Access denied; you need (at least one of) the CREATE USER privilege(s) for this operation
+			
+			Solution : 
+				First of all You have to remove whole phpmyadmin from your system using
+
+					
+
+					$sudo apt-get remove phpmyadmin mysql-server mysql-client
+					$sudo apt-get purge phpmyadmin mysql-server
+					$sudo apt-get autoremove
+					$sudo apt-get update
+					$sudo apt-get install phpmyadmin
+					$sudo apt-get install mysql-client mysql-server
+
+
+
+
+
+			Refer :
+			-------------->>> https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-18-04
+
+			-------------->>> https://github.com/digitalocean/mysql
+
+
+			https://medium.com/ciiag/digital-ocean-allow-remote-access-to-mysql-database-18c2d6b8986
+			https://www.digitalocean.com/community/tutorials/how-to-allow-remote-access-to-mysql
+			https://www.digitalocean.com/community/questions/remote-connection-to-mysql-database
+
+
+
+
+
+
+		-> recheck phpmyadmin >>> fire above command, it will show 
+				"phpmyadmin is already the newest version (4:4.9.5+dfsg1-2)"
+
+		-> $sudo phpenmod mbstring
+
+
+ 
+
+
+ 

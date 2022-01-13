@@ -1,0 +1,89 @@
+Some Articles on Ktor
+	
+	- JWT authentication + mongodb with Ktor 
+		 * https://dev.to/toluxpersia/jwt-authentication-mongodb-with-ktor-40dg
+
+
+ 	- HTTP requests on Android using Ktor
+ 		https://dev.to/amrfarid140/http-requests-on-android-using-ktor-38nd
+
+
+ 	- Deploying server-side Kotlin Ktor applications on Dokku
+ 		* https://dev.to/kotlin/deploying-server-side-kotlin-ktor-applications-on-dokku-1iee
+
+
+ 	- Ktor - Setting up JWT
+ 		* https://dev.to/janstoltman/ktor-setting-up-jwt-1n4l
+
+
+ 	- Publishing server-side Kotlin applications: Ktor on Heroku
+ 		* https://dev.to/kotlin/publishing-server-side-kotlin-applications-ktor-on-heroku-2ce4
+
+
+ 	- Deploying Ktor Web Service on AWS EC2 Instance
+ 		* https://dev.to/hsm59/deploying-ktor-web-service-on-aws-ec2-instance-209h
+
+
+
+/**
+ *
+ * Deploy on Docker
+ * Deploy on Digital Ocean
+ * Deploy on Dokku
+ * Deploy on Hostinger
+ * 
+ * Deploy on AWS
+
+ * https://dev.to/kotlin/deploying-server-side-kotlin-ktor-applications-on-dokku-1iee
+ * */
+
+
+
+
+
+
+
+
+
+
+
+
+KtorNotes
+
+--------------------------------------------------SHOW--------------------------------------------------
+show Int
+show long 
+show float
+show double
+show character
+show string
+Show boolean
+
+show single object
+show list of objects
+
+show nested object in single object
+show nested object in each object in list
+show any image/document/video link (onClick link show require data)
+
+--------------------------------------------------GET--------------------------------------------------
+get int value
+get long value 
+get float value
+get double value
+get character value
+get string value
+get boolean value
+
+get single object 
+get list of object
+
+get image
+get video
+get any document
+
+
+
+
+
+

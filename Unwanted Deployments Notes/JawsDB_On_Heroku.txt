@@ -1,0 +1,26 @@
+Step 1 : perform required code, run on localhost if runs perfectly then goto Step 2
+
+Step 2 : add heroku in project > perform few steps, heroku will return its link  if runs perfectly then goto Step 3
+
+Step 3 : add JawsDB in project by entering following command
+		
+		"$heroku addons:create jawsdb"
+
+		Response > Created jawsdb-defaultAnyText-5DigitNo as JAWSDB_JADE_URL
+
+Step 4 : Get MySQL Url Enter Following Command
+
+			"$heroku config:get JAWSDB_JADE_URL"
+
+			You Will get url like this >>>>> "mysql://username:password@hostname:port/databaseName"
+
+
+			Note : Step 3 : Response , JAWSDB_JADE_URL and Step 4 : JAWSDB_JADE_URL same (it can be anything but should same)
+
+			//Make Sure you have local database setup and all data insert, read, update, delete
+
+			then make changes in database object as follows
+
+			When You get MySQL Url > copy url and replace with localdatabase url
+
+		
